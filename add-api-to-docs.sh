@@ -21,5 +21,9 @@ if [ -d "docs/swagger-ui" ]; then rm -fr docs/swagger-ui; fi
 if [ -f "docs/api.yml" ]; then rm docs/api.yml; fi
 echo "OK"
 
+echo -n "Deploying Swagger UI and API definition..."
 sh target/add-swagger-ui.sh
 cp target/classes/*.yml docs/api.yml
+echo "OK"
+
+echo "DONE"
