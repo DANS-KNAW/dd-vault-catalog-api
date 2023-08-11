@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (C) 2022 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
+    Copyright (C) 2023 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -30,6 +30,12 @@
 
     <name>DD Vault Catalog API</name>
     <url>https://github.com/DANS-KNAW/dd-vault-catalog-api</url>
+    <description>Service API definition for dd-vault-catalog</description>
+    <inceptionYear>2023</inceptionYear>
+    <scm>
+        <developerConnection>scm:git:ssh://github.com/DANS-KNAW/${project.artifactId}</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
 
     <repositories>
         <repository>
