@@ -19,8 +19,7 @@ info:
   title: Vault Catalog Service API
   version: ${project.version}
   description: |
-    This document specifies the Vault Catalog Service API. It provides relational metadata about items in the vault catalog.
-    This API implements the operations ...
+    This document specifies the Vault Catalog Service API. It provides operations to update and retrieve information in the vault catalog.
 
   license:
     name: Apache 2.0
@@ -47,173 +46,188 @@ paths:
                 description: A plain text, human readable description of the service
                 example: DANS VAULT CATALOG SERVICE running v1.2.3
 
-
-  /ocflObject/bagId/{bagId}:
+  /dataset/{nbn}:
     get:
-      tags:
-        - ocflObjectVersion
-      operationId: getOcflObjectsByBagId
+      operationId: getDataset
       parameters:
-        - name: bagId
+        - name: nbn
           in: path
           required: true
           schema:
             type: string
-      responses:
-        200:
-          description: OCFL Object Version array
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OcflObjectVersion'
-
-  /ocflObject/swordToken/{swordToken}:
-    get:
-      tags:
-        - ocflObjectVersion
-      operationId: getOcflObjectsBySwordToken
-      parameters:
-        - name: swordToken
-          in: path
-          required: true
+        - name: Accept
+          in: header
+          required: false
           schema:
             type: string
+            enum: [application/json, text/html]
+            default: application/json
       responses:
         200:
-          description: OCFL Object Version array
+          description: a description of the dataset
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/OcflObjectVersion'
-
-  /ocflObject/bagId/{bagId}/version/{versionNumber}:
-    get:
-      tags:
-        - ocflObjectVersion
-      operationId: getOcflObjectByBagIdAndVersionNumber
-      parameters:
-        - name: bagId
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: versionNumber
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        200:
-          description: Single OCFL Object Version
-          content:
-            application/json:
+                $ref: '#/components/schemas/Dataset'
+            text/html:
               schema:
-                $ref: "#/components/schemas/OcflObjectVersion"
-
+                type: string
+                format: html
+                description: A html representation of the dataset
     put:
-      tags:
-        - ocflObjectVersion
-      operationId: createOcflObjectVersion
-      summary: PUT a new OCFL Object to the Catalog, or extend an existing one
-      description: |
+      operationId: addDataset
+      description: Add a new dataset to the vault catalog. This can be done only once for each dataset, so fields cannot be added incrementally
+        to a dataset, unlike with the VersionExport.
+      parameters:
+        - name: nbn
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
-        description: When extending an existing OCFL Object in the Catalog, it is not possible to update properties
-          that were set previously. All pre-existing properties must match the newly sent properties.
-        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/OcflObjectVersionParameters"
+              $ref: '#/components/schemas/Dataset'
+      responses:
+        204:
+          description: dataset added
+        400:
+          description: invalid input, object invalid
+        409:
+          description: dataset already exists
+  /dataset:
+    get:
+      operationId: getDatasetBySwordToken
+      parameters:
+        - name: swordToken
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: a description of the dataset
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Dataset'
+
+  /dataset/{nbn}/versionExport/{bagId}:
+    get:
+      operationId: getVersionExport
+      parameters:
+        - name: nbn
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bagId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: a description of the version export
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VersionExport'
+    put:
+      operationId: addVersionExport
+      parameters:
+        - name: nbn
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: bagId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VersionExport'
+      responses:
+        204:
+          description: version export added
+        400:
+          description: invalid input, object invalid
+
+  /datasetVersionExport/{bagId}:
+    get:
+      operationId: getDatasetVersionExportByBagId
       parameters:
         - name: bagId
           in: path
           required: true
           schema:
             type: string
-        - name: versionNumber
-          in: path
-          required: true
-          schema:
-            type: integer
-
       responses:
-        201:
-          description: The object has been created
+        200:
+          description: a description of the dataset version export
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/OcflObjectVersion'
-        400:
-          description: The OcflObject was syntactically incorrect, for instance not all required fields were provided.
-        401:
-          description: Unauthorized
-        500:
-          $ref: '#/components/responses/Unavailable'
-
+                $ref: '#/components/schemas/VersionExport'
+        404:
+          description: dataset version export not found
 
 components:
-  responses:
-    Unavailable:
-      description: Service is unavailable because of an error.
-    FileNotFound:
-      description: The item could not be found.
 
   schemas:
-
-    OcflObjectVersion:
+    Dataset:
       type: object
-      example:
-        bagId: urn:uuid:40594b6d-8378-4260-b96b-13b57beadf7c
-        objectVersion: 1
-        nbn: urn:nbn:nl:ui:13-00-1haq
-        swordToken: sword:016526b1-c0ae-4237-854c-1f4d0b84d25a
-        dataSupplier: REPO1
-        tarUuid: e102df56-14ca-48a6-a74a-0fc1ae1c14de
-        ocflObjectPath: 40/59/4b/6d-8378-4260-b96b-13b57beadf7c
-        datastation: DS_Archaeology
-        dataversePid: https://doi.org/10.17026/XXXXX
-        dataversePidVersion: V1.0
-        otherId: REPO1:31998
-        otherIdVersion: 3.2
-        deaccessioned: false
-        exporter: vault-catalog-service
-        exporterVersion: 1.2.3
       required:
-        - bagId
-        - objectVersion
-        - skeletonRecord
+        - nbn
+        - datastation
       properties:
-        bagId:
-          type: string
-        objectVersion:
-          type: integer
-        swordToken:
-          type: string
         nbn:
           type: string
-        dataSupplier:
+        datastation:
           type: string
-        tarUuid:
-          type: string
-          format: "uuid"
         dataversePid:
           type: string
-        dataversePidVersion:
+        swordToken:
           type: string
-        datastation:
+          x-field-extra-annotation: "@nl.knaw.dans.catalog.core.ValidUrnUuid"
+        dataSupplier:
+          type: string
+        versionExports:
+          type: array
+          items:
+            $ref: '#/components/schemas/VersionExport'
+
+    VersionExport:
+      type: object
+      required:
+        - datasetNbn
+        - bagId
+      properties:
+        datasetNbn:
+          type: string
+        bagId:
+          type: string
+          x-field-extra-annotation: "@nl.knaw.dans.catalog.core.ValidUrnUuid"
+        ocflObjectVersionNumber:
+          type: integer
+        createdTimestamp:
+          type: string
+          format: date-time
+        archivedTimestamp:
+          type: string
+          format: date-time
+        dataversePidVersion:
           type: string
         otherId:
           type: string
         otherIdVersion:
           type: string
-        ocflObjectPath:
-          type: string
         metadata:
-          type: object
           format: "json-ld"
           additionalProperties: true
         filepidToLocalPath:
@@ -226,70 +240,6 @@ components:
           type: string
         skeletonRecord:
           type: boolean
-          default: false
 
-    OcflObjectVersionParameters:
-      type: object
-      example:
-        nbn: urn:nbn:nl:ui:13-00-1haq
-        swordToken: sword:016526b1-c0ae-4237-854c-1f4d0b84d25a
-        dataSupplier: REPO1
-        tarUuid: e102df56-14ca-48a6-a74a-0fc1ae1c14de
-        ocflObjectPath: 40/59/4b/6d-8378-4260-b96b-13b57beadf7c
-        datastation: DS_Archaeology
-        dataversePid: https://doi.org/10.17026/XXXXX
-        dataversePidVersion: V1.0
-        otherId: REPO1:31998
-        otherIdVersion: 3.2
-        exportTimestamp: 2023-04-09T11:56:58.607Z
-        deaccessioned: false
-        exporter: vault-catalog-service
-        exporterVersion: 1.2.3
-      properties:
-        swordToken:
-          type: string
-        nbn:
-          type: string
-        datastation:
-          type: string
-        dataSupplier:
-          type: string
-        dataversePid:
-          type: string
-        dataversePidVersion:
-          type: string
-        otherId:
-          type: string
-        otherIdVersion:
-          type: string
-        ocflObjectPath:
-          type: string
-        metadata:
-          type: object
-          format: "json-ld"
-          additionalProperties: true
-        filepidToLocalPath:
-          type: string
-        skeletonRecord:
-          type: boolean
-          default: false
-        deaccessioned:
-          type: boolean
-        exporter:
-          type: string
-        exporterVersion:
-          type: string
 
-    OcflObjectVersionRef:
-      type: object
-      example:
-        bagId: urn:uuid:40594b6d-8378-4260-b96b-13b57beadf7c
-        objectVersion: 1
-      required:
-        - bagId
-        - objectVersion
-      properties:
-        bagId:
-          type: string
-        objectVersion:
-          type: integer
+
