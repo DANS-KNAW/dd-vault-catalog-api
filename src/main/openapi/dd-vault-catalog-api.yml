@@ -194,7 +194,7 @@ components:
           type: string
         swordToken:
           type: string
-          x-field-extra-annotation: "@nl.knaw.dans.catalog.core.ValidUrnUuid"
+          x-field-extra-annotation: "@nl.knaw.dans.lib.util.validation.ValidUrnUuidOrNull"
         dataSupplier:
           type: string
         versionExports:
@@ -207,12 +207,13 @@ components:
       required:
         - datasetNbn
         - bagId
+        - createdTimestamp
       properties:
         datasetNbn:
           type: string
         bagId:
           type: string
-          x-field-extra-annotation: "@nl.knaw.dans.catalog.core.ValidUrnUuid"
+          x-field-extra-annotation: "@nl.knaw.dans.lib.util.validation.ValidUrnUuidOrNull"
         ocflObjectVersionNumber:
           type: integer
         createdTimestamp:
