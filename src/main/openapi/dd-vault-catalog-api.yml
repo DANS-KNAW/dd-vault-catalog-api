@@ -231,9 +231,9 @@ components:
           type: string
         otherIdVersion:
           type: string
-        metadata:
-          format: "json-ld"
-          additionalProperties: true
+#        metadata:
+#          format: "json-ld"
+#          additionalProperties: true
         filepidToLocalPath:
           type: string
         deaccessioned:
