@@ -185,11 +185,11 @@ components:
     SwordToken:
       type: string
       x-field-extra-annotation: "@nl.knaw.dans.validation.SwordToken"
-    
+
     BagId:
       type: string
       x-field-extra-annotation: "@nl.knaw.dans.validation.UrnUuid"
-    
+
     Dataset:
       type: object
       required:
@@ -210,7 +210,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/VersionExport'
-    
+
     VersionExport:
       type: object
       required:
