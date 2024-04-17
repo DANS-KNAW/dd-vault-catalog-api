@@ -32,7 +32,7 @@ servers:
 paths:
   /:
     get:
-      summary: Returns a description of the service.
+      summary: Returns a description of the service and a form for finding a dataset by NBN
       description:
         This is the starting place for navigating the Vault Catalog Service. It returns a description of the service.
       operationId: getInfo
@@ -40,11 +40,9 @@ paths:
         200:
           description: Description of the service
           content:
-            text/plain:
+            text/html:
               schema:
                 type: string
-                description: A plain text, human readable description of the service
-                example: DANS VAULT CATALOG SERVICE running v1.2.3
 
   /dataset/{nbn}:
     get:
