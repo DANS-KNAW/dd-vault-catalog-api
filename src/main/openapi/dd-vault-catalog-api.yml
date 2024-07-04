@@ -248,6 +248,25 @@ components:
           type: string
         skeletonRecord:
           type: boolean
+        fileMetas:
+          type: array
+          items:
+            $ref: '#/components/schemas/FileMeta'
 
-
-
+    FileMeta:
+      type: object
+      required:
+        - filepath
+        - fileUri
+        - sha1sum
+        - byteSize
+      properties:
+        filepath:
+          type: string
+        fileUri:
+          type: string
+          format: uri
+        sha1sum:
+          type: string
+        byteSize:
+          type: integer
