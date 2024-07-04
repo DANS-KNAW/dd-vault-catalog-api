@@ -238,8 +238,6 @@ components:
         metadata:
           format: "json-ld"
           additionalProperties: true
-        filePidToLocalPath:
-          type: string
         deaccessioned:
           type: boolean
         exporter:
