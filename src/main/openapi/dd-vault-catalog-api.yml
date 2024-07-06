@@ -229,6 +229,8 @@ components:
         archivedTimestamp:
           type: string
           format: date-time
+        title:
+          type: string
         dataversePidVersion:
           type: string
         otherId:
