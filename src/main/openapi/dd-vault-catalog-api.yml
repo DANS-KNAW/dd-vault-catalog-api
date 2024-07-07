@@ -206,6 +206,7 @@ components:
           type: string
         versionExports:
           type: array
+          default: []
           items:
             $ref: '#/components/schemas/VersionExport'
 
@@ -250,6 +251,7 @@ components:
           type: boolean
         fileMetas:
           type: array
+          default: []
           items:
             $ref: '#/components/schemas/FileMeta'
 
