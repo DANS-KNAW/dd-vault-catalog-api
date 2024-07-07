@@ -239,8 +239,7 @@ components:
         otherIdVersion:
           type: string
         metadata:
-          format: "json-ld"
-          additionalProperties: true
+          type: string
         deaccessioned:
           type: boolean
         exporter:
@@ -272,3 +271,4 @@ components:
           type: string
         byteSize:
           type: integer
+          format: int64
