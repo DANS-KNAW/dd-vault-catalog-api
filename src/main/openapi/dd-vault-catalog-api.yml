@@ -206,6 +206,7 @@ components:
           type: string
         versionExports:
           type: array
+          default: []
           items:
             $ref: '#/components/schemas/VersionExport'
 
@@ -229,6 +230,8 @@ components:
         archivedTimestamp:
           type: string
           format: date-time
+        title:
+          type: string
         dataversePidVersion:
           type: string
         otherId:
@@ -236,9 +239,6 @@ components:
         otherIdVersion:
           type: string
         metadata:
-          format: "json-ld"
-          additionalProperties: true
-        filePidToLocalPath:
           type: string
         deaccessioned:
           type: boolean
@@ -248,6 +248,27 @@ components:
           type: string
         skeletonRecord:
           type: boolean
+        fileMetas:
+          type: array
+          default: []
+          items:
+            $ref: '#/components/schemas/FileMeta'
 
-
-
+    FileMeta:
+      type: object
+      required:
+        - filepath
+        - fileUri
+        - sha1sum
+        - byteSize
+      properties:
+        filepath:
+          type: string
+        fileUri:
+          type: string
+          format: uri
+        sha1sum:
+          type: string
+        byteSize:
+          type: integer
+          format: int64
