@@ -36,10 +36,21 @@ paths:
       description:
         This is the starting place for navigating the Vault Catalog Service. It returns a description of the service.
       operationId: getInfo
+      parameters:
+        - name: Accept
+          in: header
+          required: false
+          schema:
+            type: string
+            enum: [ application/json, text/html ]
+            default: application/json
       responses:
         200:
           description: Description of the service
           content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppInfo'
             text/html:
               schema:
                 type: string
@@ -180,6 +191,14 @@ paths:
 components:
 
   schemas:
+    AppInfo:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+
     SwordToken:
       type: string
       x-field-extra-annotation: "@nl.knaw.dans.validation.SwordToken"
@@ -206,7 +225,7 @@ components:
           type: string
         versionExports:
           type: array
-          default: []
+          default: [ ]
           items:
             $ref: '#/components/schemas/VersionExport'
 
@@ -250,7 +269,7 @@ components:
           type: boolean
         fileMetas:
           type: array
-          default: []
+          default: [ ]
           items:
             $ref: '#/components/schemas/FileMeta'
 
