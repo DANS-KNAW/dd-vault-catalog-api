@@ -192,11 +192,11 @@ components:
       type: object
       required:
         - nbn
-        - datastation
+        - ocflStorageRoot
       properties:
         nbn:
           type: string
-        datastation:
+        ocflStorageRoot:
           type: string
         dataversePid:
           type: string
