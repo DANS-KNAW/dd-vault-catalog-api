@@ -169,6 +169,36 @@ paths:
         400:
           description: invalid input, object invalid
 
+  /dataset/{nbn}/versionExports/{ocflObjectVersionNumber}/archivedTimestamp:
+    put:
+      operationId: setVersionExportArchivedTimestamp
+      parameters:
+        - name: nbn
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: ocflObjectVersionNumber
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              format: date-time
+      responses:
+        200:
+          description: archivedTimestamp updated
+        400:
+          description: invalid input, object invalid
+        404:
+          description: dataset or version export not found
+        409:
+          description: version export already has an archivedTimestamp
+
   /datasetVersionExport/{bagId}:
     get:
       operationId: getDatasetVersionExportByBagId
@@ -188,11 +218,11 @@ paths:
         404:
           description: dataset version export not found
 
-  /unconfirmedVersionExports:
+  /datasetVersionExport/unconfirmed:
     get:
       summary: Get unconfirmed Dataset Version Exports
       description: Returns Dataset Version Exports with no archivedTimestamp set.
-      operationId: getUnconfirmedVersionExports
+      operationId: getUnconfirmedDatasetVersionExports
       parameters:
         - name: limit
           in: query
@@ -253,7 +283,7 @@ components:
           type: string
         versionExports:
           type: array
-          default: []
+          default: [ ]
           items:
             $ref: '#/components/schemas/VersionExport'
 
@@ -297,7 +327,7 @@ components:
           type: boolean
         fileMetas:
           type: array
-          default: []
+          default: [ ]
           items:
             $ref: '#/components/schemas/FileMeta'
 
