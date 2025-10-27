@@ -188,6 +188,34 @@ paths:
         404:
           description: dataset version export not found
 
+  /unconfirmedVersionExports:
+    get:
+      summary: Get unconfirmed Dataset Version Exports
+      description: Returns Dataset Version Exports with no archivedTimestamp set.
+      operationId: getUnconfirmedVersionExports
+      parameters:
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 0
+      responses:
+        200:
+          description: List of unconfirmed Dataset Version Exports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VersionExport'
+
 components:
 
   schemas:
