@@ -334,6 +334,10 @@ components:
 
     UnconfirmedDatasetVersionExport:
       type: object
+      required:
+        - storageRoot
+        - datasetNbn
+        - ocflObjectVersionNumber
       properties:
         storageRoot:
           type: string
