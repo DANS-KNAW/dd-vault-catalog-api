@@ -175,7 +175,7 @@ paths:
         409:
           description: version export found, but not a skeleton record
 
-  /dataset/{nbn}/versionExportAdd:
+  /dataset/{nbn}/versionExport:
     post:
       operationId: addVersionExport
       summary: add a version export record
@@ -192,7 +192,7 @@ paths:
             schema:
               $ref: '#/components/schemas/VersionExport'
       responses:
-        201:
+        200:
           description: version export created
         400:
           description: invalid input, object invalid
