@@ -350,6 +350,15 @@ components:
           type: string
         metadata:
           type: string
+        metadataEncoding:
+          type: string
+          enum: [ plain, gzip-base64 ]
+          default: plain
+          description: >
+            Specifies the encoding of the `metadata` field. `plain` (default) means the metadata
+            is passed as plain text. `gzip-base64` means the metadata's UTF-8 bytes have been
+            gzipped and then Base64 encoded. The server will Base64 decode and decompress
+            the value (interpreting the result as UTF-8) before storing.
         deaccessioned:
           type: boolean
         exporter:
