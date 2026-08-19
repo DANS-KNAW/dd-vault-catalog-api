@@ -189,9 +189,17 @@ paths:
           required: true
           schema:
             type: integer
+        - name: force
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
       responses:
         204:
           description: Version export deleted
+        400:
+          description: Cannot delete non-latest version export without force
         404:
           description: Version export not found
 
