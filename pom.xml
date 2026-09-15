@@ -30,7 +30,7 @@
 
     <name>DD Vault Catalog API</name>
     <description>Service API definition for dd-vault-catalog</description>
-    <url>https://github.com/DANS-KNAW/dd-vault-catalog-api</url>
+    <url>https://dans-knaw.github.io/dd-vault-catalog-api</url>
     <inceptionYear>2023</inceptionYear>
     <scm>
         <developerConnection>scm:git:ssh://github.com/DANS-KNAW/${project.artifactId}</developerConnection>
