@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #
 # Copyright (C) 2023 DANS - Data Archiving and Networked Services (info@dans.knaw.nl)
 #
@@ -14,7 +15,11 @@
 # limitations under the License.
 #
 
-mvn dans-build-resources:get-helper-script
+set -euo pipefail
+
+export MAVEN_ARGS="-s .github/ci-settings.xml"
+
+mvn $MAVEN_ARGS dans-build-resources:get-helper-script
 
 echo -n "Removing existing files if present..."
 if [ -d "docs/swagger-ui" ]; then rm -fr docs/swagger-ui; fi
